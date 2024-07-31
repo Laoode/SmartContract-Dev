@@ -1,0 +1,24 @@
+Upgrade Solidity Version dan Data Location
+------------------------------------------
+Dalam programming, library, programming language, dan tools yang kita pake pasti mengalami update. Kayak app atau OS yang kita pake aja, sesekali perlu di update. Sebelumnya kita bikin pake versi 0.4.17, di sini kita update ke version 0.8.19.
+
+Run command: npm install solc@0.8.19
+Untuk install Solidity compiler versi terbaru.
+
+Di contract, ubah versi Soldiity ke 0.8.19 tanpa caret symbol biar versinya lebih spesifik.
+Ubah contructor function kita yang function 'Inbox' jadi 'constructor' dan ilangin public disini karena di Solidity versi 0.7 sekian, constructor udah ngga perlu visibility specifier yang public private itu
+
+Tambahin data location untuk reference-type atau non-primitive parameter, string dan array itu reference type, uint itu primitive, untuk constructor kita pakai memory dan function setMessage kita juga pakai memory.
+
+Tambahkan SPDX license identifier, singkatan kasih license dari contract kita, aku ga akan bahas terlalu dalem tentang license ini, tapi sekarang kita pake yg MIT aja, taro di atas pragma solidity. MIT permissive free software license yang berasal dari Massachusetts Institute of Technology (MIT). ini ngebolehin orang use, copy, modify, merge publish, distribute, sublicense and sell copies. Kalian bisa explore tentang jenis-jenis license yang ada.
+
+Data Location
+-------------
+Umumnya kita akan ketemu dengan storage, memory, dan calldata untuk jenis-jenis data location.
+Di constructor, kita cuman bisa pake storage atau memory.
+
+Kita pake memory kalau parameternya hanya perlu di scope function tersebut dan bersifat sementara, ngga disimpen ke blockchain. Kayak pake papan tulis, dihapus kalau udah ngga butuh.
+
+Pake storage kalau value parameter perlu disimpen di blockchain. Ini boros gas, jadi pake kalau memang perlu.
+
+Pake calldata kalau parameternya cuman di read, ngga diubah-ubah, juga ga disimpan dii blockhain. Singkatnya, kayak memory tapi ini immutable, klo memory mutable (bisa diubah-ubah nilainya) dan umumnya dipake kalau functionnya bersifat external. Calldata juga lebih hemat gas.
