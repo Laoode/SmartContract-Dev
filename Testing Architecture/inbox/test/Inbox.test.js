@@ -15,9 +15,17 @@ class Cat{
     }
 }
 
+let cat;
+
+beforeEach(() =>{
+    cat = new Cat();
+})
+
 describe('Cat test', () =>{
-    it('can talk', () =>{
-        const cat = new Cat();
+    it('can talk', () =>{      
         assert.equal(cat.talk(), 'meong');
+    })
+    it('can eat', () =>{
+        assert.equal(cat.eat(), 'nyam');
     })
 })
