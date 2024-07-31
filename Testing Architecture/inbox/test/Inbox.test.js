@@ -1,31 +1,31 @@
-// updated ganache and web3 imports added for convenience
-// contract test code will go here
-const assert = require('assert')
-const ganache = require('ganache');
-const { Web3 } = require('web3');
+const assert = require('assert');
+const ganache = require('ganache-cli');
+const Web3 = require('web3');
+
 // create web3 instance
 const web3 = new Web3(ganache.provider());
+const {abi, evm} = require('../compile');
 
-class Cat{
-    talk(){
-        return 'meong';
-    }
-    eat(){
-        return 'nyam';
-    }
-}
+let accounts;
+let inbox;
+beforeEach(async () => {
+    // get a list of accounts
+    accounts = await web3.eth.getAccounts();
 
-let cat;
-
-beforeEach(() =>{
-    cat = new Cat();
-})
-
-describe('Cat test', () =>{
-    it('can talk', () =>{      
-        assert.equal(cat.talk(), 'meong');
+    // use one of the accounts to deploy contract
+    inbox = await new web3.eth.Contract(abi)
+    .deploy({
+        data : evm.bytecode.object,
+        arguments : ['Hallo']
     })
-    it('can eat', () =>{
-        assert.equal(cat.eat(), 'nyam');
-    })
-})
+    .send({
+        from: accounts[0],
+        gas : '1000000'
+    });
+});
+
+describe('Inbox', () => {
+    it('deploy contract', () => {
+        console.log(inbox);
+    });
+});
